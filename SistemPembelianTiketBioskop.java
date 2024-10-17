@@ -6,6 +6,7 @@ import java.util.Scanner;
 public class SistemPembelianTiketBioskop {
 
     public static String filmDipilih;
+    private static String pilihJadwal;
     public static ArrayList<String> riwayatPemesanan = new ArrayList<>();
     private static final int totalKursi = 10;
     private static boolean[] kursi = new boolean[totalKursi]; // false = tersedia, true = terisi
@@ -80,7 +81,6 @@ public class SistemPembelianTiketBioskop {
         System.out.println("Rating: " + rating + " bintang");
     }
 
-
     public static void daftarPengguna() {
         Scanner input = new Scanner(System.in);
         System.out.println("MASUKAN DATA PENGGUNA");
@@ -127,6 +127,74 @@ public class SistemPembelianTiketBioskop {
             riwayatPemesanan.add(filmDipilih);
         }
         System.out.println("Anda memilih: " + filmDipilih);
+        detailFilm();
+    }
+
+    public static void detailFilm() {
+        Scanner input = new Scanner(System.in);
+        if (filmDipilih == null) {
+            System.out.println("Tidak ada film yang dipilih.");
+            return;
+        }
+
+        switch (filmDipilih) {
+            case "Wolverine X Deadpool":
+                System.out.println("Judul: Wolverine X Deadpool\nGenre: Aksi, Petualangan, Superhero\nDurasi: 2 j 8 m");
+                break;
+            case "Joker: Folie à Deux":
+                System.out.println("Judul: Joker: Folie à Deux\nGenre: Drama, Kriminal, Musik\nDurasi: 2 j 18 m");
+                break;
+            case "Piece by Piece":
+                System.out.println("Judul: Piece by Piece\nGenre: Drama, Keluarga\nDurasi: 1 j 33 m");
+                break;
+            case "Kuasa Gelap":
+                System.out.println("Judul: Kuasa Gelap\nGenre: Horror\nDurasi: 1 j 36 m");
+            default:
+                System.out.println("Tidak ada detail untuk film yang dipilih.");
+                break;
+        }
+        System.out.println("Tekan 1 untuk konfirmasi: ");
+        int pilihan = input.nextInt();
+        switch (pilihan) {
+            case 1:
+                jadwalFilm();
+                break;
+            default:
+                System.out.println("Pilihan tidak valid");
+                riwayatPemesanan.remove(filmDipilih);
+                showMenu();
+        }
+    }
+
+    public static void jadwalFilm() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Pilih Jadwal Nonton:");
+        System.out.println("1. 10:00 AM");
+        System.out.println("2. 01:00 PM");
+        System.out.println("3. 04:00 PM");
+        System.out.println("4. 07:00 PM");
+        System.out.print("Masukkan pilihan (1-4): ");
+
+        int pilihan = input.nextInt();
+        input.nextLine();
+        switch (pilihan) {
+            case 1:
+                pilihJadwal = "10:00 AM";
+                break;
+            case 2:
+                pilihJadwal = "01:00 PM";
+                break;
+            case 3:
+                pilihJadwal = "04:00 PM";
+                break;
+            case 4:
+                pilihJadwal = "07:00 PM";
+                break;
+            default:
+                System.out.println("Pilihan tidak valid. Silakan coba lagi.");
+                jadwalFilm();
+        }
+        System.out.println("Anda telah memilih jadwal: " + pilihJadwal);
     }
 
     private static void tampilkanKursi() {
@@ -302,7 +370,8 @@ public class SistemPembelianTiketBioskop {
         } else {
             System.out.println("Riwayat Pemesanan:");
             for (String film : riwayatPemesanan) {
-                System.out.println("- " + "Film                 : "  + film);
+                System.out.println("- " + "Film                 : "  + filmDipilih);
+                System.out.println("- " + "Jadwal Nonton        : "  + pilihJadwal);
                 System.out.println("- " + "Studio Type          : "  + tipeStudio);
                 System.out.println("- " + "Metode Pembayaran    : "  + metodePembayaran);
                 System.out.println("- " + "Ulasan               : "  + ulasan);
